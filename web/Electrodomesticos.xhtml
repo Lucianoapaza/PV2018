@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Electrodomesticos</title>
+    </h:head>
+    <h:body>
+        <p:panel id="pnlElectros" header="Registro de Electrodomesticos">
+            <h:form id="frmElectros">
+                <p:panelGrid id="tblIngreso" columns="2">
+                    <p:outputLabel for="cod" value="Ingrese codigo:"/>
+                    <p:inputText id="cod" value="#{electrodomesticoFormBean.cod}" required="true"/>
+                    <p:outputLabel for="tip" value="Ingrese tipo:"/>
+                    <p:inputText id="tip" value="#{electrodomesticoFormBean.tipo}" required="true"/>
+                    <p:outputLabel for="fecha" value="Fecha Ingreso:"/>
+                    <p:calendar id="fecha" value="#{electrodomesticoFormBean.fecha}" required="true" readonlyInput="true"/>
+                    <p:outputLabel for="mar" value="Ingrese marca:"/>
+                    <p:selectOneMenu id="mar" required="true" value="#{electrodomesticoFormBean.marca}"
+                                     converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="Elija Marca" itemValue="#{null}"/>
+                        <f:selectItems value="#{electrodomesticoFormBean.listadoMarcas.listaMarca}" 
+                                       var="cadaMarca" itemLabel="#{cadaMarca.nombre}" itemValue="#{cadaMarca}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel/>
+                    <p:commandButton id="btnAgregar" value="Agregar" 
+                                     actionListener="#{electrodomesticoFormBean.agregarElectrodomestico()}"
+                                     update=":frmMuestraElec"/>
+                </p:panelGrid>
+            </h:form>
+            <h:form id="frmMuestraElec">
+                <p:dataTable id="dtTbElectro" value="#{electrodomesticoFormBean.listaAux}" var="cadaElectro" 
+                             emptyMessage="Sin Registros">
+                    <p:column headerText="Codgo" >
+                        <p:outputLabel value="#{cadaElectro.codigo}"/>
+                    </p:column>
+                    <p:column headerText="Tpo" >
+                        <p:outputLabel value="#{cadaElectro.tipo}"/>
+                    </p:column>
+                    <p:column headerText="Marca" >
+                        <p:outputLabel value="#{cadaElectro.marca.nombre}"/>
+                    </p:column>
+                    <p:column headerText="FechaIngreso" >
+                        <p:outputLabel value="#{cadaElectro.fecha}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:panel>
+    </h:body>
+</html>
+
